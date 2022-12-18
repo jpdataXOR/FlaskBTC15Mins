@@ -107,33 +107,8 @@ def detect_trend_change(ohlc_array, num_prev_candles=2):
   return trendPrint
 
 
-def is_timestamp_in_quadrant(variableTimestamp):
-  # Get the current timestamp
-  current_timestamp = datetime.now()
-
-  # Get the current time quadrant (15 minutes)
-  # For example, if the current time is 9:05, the time quadrant will be 9:00
-  current_quadrant = current_timestamp.replace(
-    minute=0, second=0,
-    microsecond=0) + timedelta(minutes=15 * (current_timestamp.minute // 15))
-
-  # Calculate the start and end of the 15-minute range
-  start = current_quadrant - timedelta(minutes=7.5)
-  end = current_quadrant + timedelta(minutes=7.5)
-
-  print(str_to_datetime(start))
-  print(str_to_datetime(end))
-
-  # Check if the variable timestamp is within the 15-minute range
-  if str_to_datetime(start) <= variableTimestamp <= str_to_datetime(end):
-    return True
-  else:
-    return False
 
 
-def str_to_datetime(value):
-  # Use the strptime() method to parse the string and convert it to a datetime object
-  return datetime.timestamp(value) * 1000
 
 
 def send_ifttt_alert(message):
