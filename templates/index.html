@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Kraken Trend Changes</title>
+  </head>
+  <body>
+    <h1>Kraken Trend Changes</h1>
+    <table border="1" style="border-collapse: collapse;">
+      <tr>
+        <th>Trend Changes</th>
+      </tr>
+      {% for trend in trendChanges %}
+        <tr>
+          <td>{{ trend }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
