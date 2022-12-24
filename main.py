@@ -63,7 +63,7 @@ def detect_trend_change(ohlc_array, num_prev_candles=2):
   timezone = pytz.timezone("Australia/Sydney")
 
   # Iterate over the candles in the OHLC array
-  for i in range(1, len(ohlc_array)):
+  for i in range(1, len(ohlc_array) - 1):
     # Check if the current candle's close price is higher than the average of the previous num_prev_candles candles' close prices
 
     if ohlc_array[i][4] > sum(
@@ -77,7 +77,7 @@ def detect_trend_change(ohlc_array, num_prev_candles=2):
         time = datetime.fromtimestamp(timestamp / 1000, tz=timezone)
         print(f"Trend changed at {time} to an uptrend")
         trendPrint.append(f"Trend changed at {time} to an uptrend")
-        if i == len(ohlc_array) - 1:
+        if i == len(ohlc_array) - 2:
           trendPrint.append("IFTTT")
           send_ifttt_alert(f"Trend changed at {time} to an uptrend")
           #trade(BuySell.BUY)
@@ -95,7 +95,7 @@ def detect_trend_change(ohlc_array, num_prev_candles=2):
         time = datetime.fromtimestamp(timestamp / 1000, tz=timezone)
         print(f"Trend changed at {time} to a downtrend")
         trendPrint.append(f"Trend changed at {time} to a downtrend")
-        if i == len(ohlc_array) - 1:
+        if i == len(ohlc_array) - 2:
           trendPrint.append("IFTTT")
           send_ifttt_alert(f"Trend changed at {time} to a downtrend")
           #trade(BuySell.SELL)
@@ -107,15 +107,11 @@ def detect_trend_change(ohlc_array, num_prev_candles=2):
   return trendPrint
 
 
-
-
-
-
 def send_ifttt_alert(message):
   # Set the IFTTT webhook URL
   ifttt_webhook_url = "https://maker.ifttt.com/trigger/{event}/with/key/{key}"
 
-  # Set the event name and your IFTTT key
+  # Set the event name and your IFTTT key This is Fror IFTTT alert
   event_name = "REPLIT_WEBHOOK"
   ifttt_key = "Z8c3ce6FYDdpqcBWVwJy4"
 
@@ -126,6 +122,18 @@ def send_ifttt_alert(message):
   payload = {"value1": message}
 
   # Send the IFTTT alert
+  requests.post(url, json=payload)
+
+  #This was added for  testing if IFTT alerts are intact
+  ifttt_key_sheets = "onjDOQAzxSIr9HH9EkxxdmcEzjNebeauy3gBN9Evv2t"
+
+  # Format the webhook URL with the event name and IFTTT key
+  url = ifttt_webhook_url.format(event=event_name, key=ifttt_key_sheets)
+
+  # Set the payload for the IFTTT alert
+  payload = {"value1": message}
+
+  # Send the IFTTT alert for Google sheets
   requests.post(url, json=payload)
 
 
